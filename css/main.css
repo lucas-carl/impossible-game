@@ -49,6 +49,24 @@ aside {
   font-size: 1rem;
 }
 
+#die {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #fff;
+  border-radius: 10%;
+  font-size: 1.5rem;
+  font-weight: bold;
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto 1rem;
+}
+
+#die.is-hidden {
+  display: none;
+}
+
 #board {
   display: grid;
   grid-template-columns: repeat(8, 1fr);

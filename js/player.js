@@ -18,24 +18,30 @@ export default class Player {
     return this.position
   }
 
+  get field() {
+    return this.fields[this.position]
+  }
+
   move(steps) {
     this.position += steps
     this.draw()
   }
 
-  draw() {
-    let field = this.fields[this.position]
-
+  clear() {
     this.fields.forEach((f) => {
       while (f.querySelector(`.player-${this.index}`)) {
         f.removeChild(f.querySelector(`.player-${this.index}`))
       }
     })
+  }
+
+  draw() {
+    this.clear()
 
     let player = document.createElement('div')
     player.className = `player player-${this.index}`
     player.style.backgroundColor = this.color
-    field.appendChild(player)
+    this.field.appendChild(player)
   }
 
 }

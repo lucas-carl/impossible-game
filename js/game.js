@@ -16,6 +16,7 @@ export default class Game {
 
     this.board = new Board(this.fields)
     this.die = new Die()
+    this.die.hide()
 
     this.gameText = document.getElementById('game-text')
     this.currentPlayerText = document.getElementById('current-player-text')
@@ -26,21 +27,24 @@ export default class Game {
     this.nextButton.innerHTML = 'Nächster'
 
     this.die.roll()
+    this.die.show()
 
     if (this.isRunning) {
-      let player = this.getCurrentPlayer()
-      player.move(this.die.getValue)
-
       this.nextPlayer()
     } else {
       this.init()
     }
+
+    let player = this.getCurrentPlayer()
+    player.move(this.die.getValue)
 
     this.drawCurrentGameText()
     this.drawCurrentPlayerText()
   }
 
   init() {
+    this.drawBoard()
+
     this.addPlayer('Lucas')
     this.addPlayer('Liam')
     this.addPlayer('Sai')
@@ -62,7 +66,6 @@ export default class Game {
     const player = new Player(name, color, index)
     this.players.push(player)
 
-    this.drawBoard()
     player.draw()
   }
 
@@ -74,7 +77,6 @@ export default class Game {
     }
 
     this.currentPlayerIndex = index
-    this.drawCurrentPlayerText()
   }
 
   drawBoard() {

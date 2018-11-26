@@ -19,4 +19,12 @@ export default class Die {
     this.die.innerHTML = this.value
   }
 
+  hide() {
+    this.die.classList.add('is-hidden')
+  }
+
+  show() {
+    this.die.classList.remove('is-hidden')
+  }
+
 }
