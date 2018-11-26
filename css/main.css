@@ -53,14 +53,22 @@ aside {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 
   background: #fff;
+  border: 2px solid transparent;
   border-radius: 10%;
   font-size: 1.5rem;
   font-weight: bold;
   width: 4rem;
   height: 4rem;
   margin: 0 auto 1rem;
+  cursor: pointer;
+}
+
+#die:hover {
+  background: #eee;
+  border-color: #f00;
 }
 
 #die.is-hidden {

@@ -25,21 +25,29 @@ export default class Game {
 
   next() {
     this.nextButton.innerHTML = 'Nächster'
-
-    this.die.roll()
     this.die.show()
 
     if (this.isRunning) {
-      this.nextPlayer()
+      if (this.currentPlayer.dieRolled === 1) {
+        this.nextPlayer()
+      }
     } else {
       this.init()
     }
 
-    let player = this.getCurrentPlayer()
-    player.move(this.die.getValue)
-
     this.drawCurrentGameText()
     this.drawCurrentPlayerText()
+  }
+
+  rollDie() {
+    if (this.currentPlayer.dieRolled < 1) {
+      this.die.roll()
+
+      this.currentPlayer.dieRolled += 1
+      this.currentPlayer.move(this.die.value)
+
+      this.drawCurrentGameText()
+    }
   }
 
   init() {
@@ -51,32 +59,27 @@ export default class Game {
     this.isRunning = true
   }
 
-  getCurrentPlayer() {
+  get currentPlayer() {
     return this.players[this.currentPlayerIndex]
   }
 
-  getCurrentField() {
-    let player = this.getCurrentPlayer()
-    return this.fields[player.position]
+  get currentField() {
+    return this.fields[this.currentPlayer.position]
   }
 
   addPlayer(name) {
-    let color = randomColor()
-    let index = this.players.length
-    const player = new Player(name, color, index)
+    const player = new Player(name, randomColor(), this.players.length)
+
     this.players.push(player)
 
     player.draw()
   }
 
   nextPlayer() {
-    let index = this.currentPlayerIndex + 1
+    this.currentPlayer.dieRolled = 0
+    this.die.value = 0
 
-    if (index >= this.players.length) {
-      index = 0
-    }
-
-    this.currentPlayerIndex = index
+    this.currentPlayerIndex = (this.currentPlayerIndex === this.players.length - 1) ? 0 : this.currentPlayerIndex + 1
   }
 
   drawBoard() {
@@ -84,13 +87,11 @@ export default class Game {
   }
 
   drawCurrentGameText() {
-    let field = this.getCurrentField()
-    this.gameText.innerHTML = field.text
+    this.gameText.innerHTML = this.currentField.text
   }
 
   drawCurrentPlayerText() {
-    let player = this.getCurrentPlayer()
-    this.currentPlayerText.innerHTML = `${player.name} ist am Zug.`
+    this.currentPlayerText.innerHTML = `${this.currentPlayer.name} ist am Zug.`
   }
 
 }

@@ -1,22 +1,26 @@
 export default class Die {
 
   constructor() {
-    this.value = 0
+    this._value = 0
     this.die = document.getElementById('die')
-    this.roll()
+    this.draw()
   }
 
-  get getValue() {
-    return this.value
+  get value() {
+    return this._value
+  }
+
+  set value(value) {
+    this._value = value
+    this.draw()
   }
 
   roll() {
     this.value = Math.round((Math.random() * 5) + 1)
-    this.draw()
   }
 
   draw() {
-    this.die.innerHTML = this.value
+    this.die.innerHTML = this.value === 0 ? 'X' : this.value
   }
 
   hide() {

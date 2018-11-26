@@ -5,13 +5,10 @@ export default class Player {
     this.position = 0
     this.color = color
     this.index = index
+    this._dieRolled = 0
 
     this.board = document.getElementById('board')
     this.fields = this.board.childNodes
-  }
-
-  set setPlayerPosition(position) {
-    this.position = position
   }
 
   get currentPlayerPosition() {
@@ -20,6 +17,14 @@ export default class Player {
 
   get field() {
     return this.fields[this.position]
+  }
+
+  get dieRolled() {
+    return this._dieRolled
+  }
+
+  set dieRolled(value) {
+    this._dieRolled = value
   }
 
   move(steps) {

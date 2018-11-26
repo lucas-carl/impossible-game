@@ -7,3 +7,8 @@ game.drawBoard()
 document.getElementById('next').addEventListener('click', () => {
   game.next()
 })
+
+// roll the die
+document.getElementById('die').addEventListener('click', () => {
+  game.rollDie()
+})
