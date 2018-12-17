@@ -24,7 +24,12 @@ export default class Game {
   }
 
   next() {
+    if (this.players.length < 2) return
+
     this.nextButton.innerHTML = 'Nächster'
+
+    document.getElementById('add-player').classList.add('is-hidden')
+
     this.die.show()
 
     if (this.isRunning) {
@@ -35,8 +40,7 @@ export default class Game {
       this.init()
     }
 
-    this.drawCurrentGameText()
-    this.drawCurrentPlayerText()
+    this.updateCurrentContent()
   }
 
   rollDie() {
@@ -46,16 +50,12 @@ export default class Game {
       this.currentPlayer.dieRolled += 1
       this.currentPlayer.move(this.die.value)
 
-      this.drawCurrentGameText()
+      this.updateCurrentContent()
     }
   }
 
   init() {
     this.drawBoard()
-
-    this.addPlayer('Lucas')
-    this.addPlayer('Liam')
-    this.addPlayer('Sai')
     this.isRunning = true
   }
 
@@ -68,11 +68,33 @@ export default class Game {
   }
 
   addPlayer(name) {
-    const player = new Player(name, randomColor(), this.players.length)
+    return new Promise((resolve, reject) => {
+      if (this.players.find((p) => p.name === name)) {
+        return reject('Spieler existiert bereits.')
+      }
 
-    this.players.push(player)
+      if (this.players.length === 8) {
+        return reject('Die maximale Anzahl an Spielern ist 8.')
+      }
 
-    player.draw()
+      const player = new Player(name, randomColor(), this.players.length)
+
+      this.players.push(player)
+      this.drawPlayerList()
+
+      player.draw()
+
+      return resolve()
+    })
+  }
+
+  removePlayer(name) {
+    let index = this.players.findIndex((player) => player.name === name)
+    if (index >= 0) {
+      this.players.splice(index, 1)
+    }
+
+    this.drawPlayerList()
   }
 
   nextPlayer() {
@@ -86,12 +108,46 @@ export default class Game {
     this.board.draw()
   }
 
-  drawCurrentGameText() {
-    this.gameText.innerHTML = this.currentField.text
+  drawPlayerList() {
+    let list = document.getElementById('players-list')
+
+    // clear
+    while (list.firstChild) {
+      list.removeChild(list.firstChild)
+    }
+
+    this.players.forEach((player, index) => {
+      let itemDelete = document.createElement('a')
+      itemDelete.href = '#'
+      itemDelete.title = 'entfernen'
+      itemDelete.innerHTML = 'x'
+      if (this.isRunning) {
+        itemDelete.classList.add('is-hidden')
+      }
+      itemDelete.addEventListener('click', (e) => {
+        e.preventDefault()
+        this.removePlayer(player.name)
+        return false
+      })
+
+      let item = document.createElement('div')
+      item.classList.add('player-list-item')
+      if (player.name === this.currentPlayer.name) {
+        item.classList.add('is-active')
+      }
+      item.innerHTML = `${index + 1}. ${player.name}`
+      item.appendChild(itemDelete)
+
+      list.appendChild(item)
+    })
   }
 
-  drawCurrentPlayerText() {
+  updateCurrentContent() {
+    this.gameText.innerHTML = this.currentField.text
+
     this.currentPlayerText.innerHTML = `${this.currentPlayer.name} ist am Zug.`
+
+    this.drawPlayerList()
   }
 
 }

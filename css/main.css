@@ -174,3 +174,68 @@ aside {
   bottom: .25rem;
   left: 1.75rem;
 }
+
+#players-list {
+  font-size: .875rem;
+  font-weight: bold;
+  color: #999;
+  margin: 1.5rem 0;
+}
+
+.player-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.player-list-item.is-active {
+  color: #fff;
+}
+
+.player-list-item a {
+  color: #999;
+  text-decoration: none;
+}
+
+.player-list-item a:hover,
+.player-list-item a:active {
+  color: #fff;
+}
+
+.player-list-item a.is-hidden {
+  display: none;
+}
+
+#add-player {
+  display: flex;
+  align-content: center;
+  padding: 1rem 0;
+}
+
+#add-player.is-hidden {
+  display: none;
+}
+
+#add-player input {
+  appearance: none;
+  border: none;
+  border-radius: none;
+  background: transparent;
+  color: #fff;
+  font-size: 1rem;
+  padding: .25em 0;
+  margin-right: .5em;
+  border-bottom: 1px solid #999;
+  width: 100%;
+}
+
+#add-player button {
+  appearance: none;
+  border: none;
+  border-radius: none;
+  background: transparent;
+  color: #fff;
+  font-size: 1.75rem;
+  font-weight: bold;
+  padding: 0;
+}

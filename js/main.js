@@ -12,3 +12,24 @@ document.getElementById('next').addEventListener('click', () => {
 document.getElementById('die').addEventListener('click', () => {
   game.rollDie()
 })
+
+const processForm = (e) => {
+  if (e.preventDefault) e.preventDefault()
+
+  let input = e.srcElement[0]
+  let name = input.value
+  if (name) {
+    game.addPlayer(name).then(() => {
+      input.value = ''
+    })
+  }
+
+  return false
+}
+
+let form = document.getElementById('add-player')
+if (form.attachEvent) {
+  form.attachEvent('submit', processForm)
+} else {
+  form.addEventListener('submit', processForm)
+}
